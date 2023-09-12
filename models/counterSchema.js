@@ -2,9 +2,9 @@
  * 维护用户ID自增长表
  */
 const mongoose = require('mongoose');
-const userSchema = mongoose.Schema({
-    _id: String,
+const CounterSchema = mongoose.Schema({
+    c_id: String,
     sequence_value: Number
 });
 
-module.exports = mongoose.model("counter", userSchema, "counters");
+module.exports = mongoose.model('counters', CounterSchema, 'counters');
