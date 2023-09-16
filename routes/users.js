@@ -3,7 +3,6 @@ const util = require('../utils/util');
 const User = require('./../models/userSchema');
 const Counter = require('./../models/counterSchema');
 const md5 = require('md5');
-require('./../config/db');
 const jwt = require('jsonwebtoken');
 
 router.prefix('/users');

@@ -6,15 +6,18 @@ const onerror = require('koa-onerror');//处理响应错误
 const bodyparser = require('koa-bodyparser');//处理请求体
 const logger = require('koa-logger');//输出服务日志
 const log4js = require('./utils/log4j');//
-const index = require('./routes/index');
-const users = require('./routes/users');
 const router = require('koa-router')();
 const jwt = require('jsonwebtoken');
 const koajwt = require('koa-jwt');
 const util = require('./utils/util');
+const menus = require('./routes/menus');
+const users = require('./routes/users');
 
 // error handler  错误处理
 onerror(app);
+
+// 连接数据库
+require('./config/db');
 
 // middlewares  挂载中间件
 app.use(bodyparser({
@@ -55,6 +58,7 @@ router.get('/leave/count', (ctx, next) => {
 });
 
 router.use(users.routes(), users.allowedMethods());
+router.use(menus.routes(), menus.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods()); //将koa - router对象的所有路由和处理函数注册成为中间件;
 
