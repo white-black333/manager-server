@@ -12,6 +12,7 @@ const koajwt = require('koa-jwt');
 const util = require('./utils/util');
 const menus = require('./routes/menus');
 const users = require('./routes/users');
+const roles = require('./routes/roles');
 
 // error handler  错误处理
 onerror(app);
@@ -59,6 +60,7 @@ router.get('/leave/count', (ctx, next) => {
 
 router.use(users.routes(), users.allowedMethods());
 router.use(menus.routes(), menus.allowedMethods());
+router.use(roles.routes(), roles.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods()); //将koa - router对象的所有路由和处理函数注册成为中间件;
 

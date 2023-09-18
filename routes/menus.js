@@ -12,6 +12,7 @@ router.post('/list', async (ctx) => {
   if (menuState) params.menuState = menuState;
   const menuList = await Menu.find(params) || [];
   const treeList = getTreeMenu(menuList, null, []);
+  // console.log('treeList=>', treeList);
   ctx.body = util.success(treeList);
 });
 
@@ -23,7 +24,7 @@ function getTreeMenu(menuList, id, list) {
       list.push(element._doc);
     }
   }
-  console.log('list=>', list);
+  // console.log('list=>', list);
   list.map((element) => {
     element.children = [];
     getTreeMenu(menuList, element._id, element.children);
@@ -31,7 +32,7 @@ function getTreeMenu(menuList, id, list) {
       // 删除元素无children的空数据
       delete element.children;
       // 筛选出二级菜单
-    } else if (element.children > 0 && element.children[0].menuType == 2) {
+    } else if (element.children.length > 0 && element.children[0].menuType == 2) {
       // 快速区分按钮和菜单，用于后期做菜单那按钮权限控制
       element.action = element.children;
     }
