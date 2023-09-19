@@ -55,6 +55,16 @@ router.get('/list', async (ctx) => {
   }
 });
 
+// 获取全量用户列表（仅包括 _id 和roleName字段）
+router.get('/all/list', async (ctx) => {
+  try {
+    const res = await User.find({}, "userName userId userEmail");
+    ctx.body = util.success(res);
+  } catch (error) {
+    ctx.body = util.fail(`${error.stack}`);
+  }
+});
+
 // 用户删除接口
 router.post('/delete', async (ctx) => {
   const { userIds } = ctx.request.body;
