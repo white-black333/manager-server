@@ -33,5 +33,27 @@ module.exports = {
         log4js.debug(msg);
         return { code, data, msg };
     },
-    CODE
+    CODE,
+    getTreeMenu(menuList, id, list) {
+        for (let i = 0; i < menuList.length; i++) {
+            const element = menuList[i];
+            if (String(element.parentId.slice().pop()) === String(id)) {
+                list.push(element._doc);
+            }
+        }
+        // console.log('list=>', list);
+        list.map((element) => {
+            element.children = [];
+            this.getTreeMenu(menuList, element._id, element.children);
+            if (element.children.length == 0) {
+                // 删除元素无children的空数据
+                delete element.children;
+                // 筛选出二级菜单
+            } else if (element.children.length > 0 && element.children[0].menuType == 2) {
+                // 快速区分按钮和菜单，用于后期做菜单那按钮权限控制
+                element.operate = element.children;
+            }
+        });
+        return list;
+    }
 };

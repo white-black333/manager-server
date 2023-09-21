@@ -49,17 +49,17 @@ router.post('/operate', async (ctx) => {
   const { _id, action, ...params } = ctx.request.body;
   try {
     let res, info;
-    if (action == 'edit') {
-      params.updateTime = new Date();
-      res = await Dept.findByIdAndUpdate(_id, params);
-      info = "编辑成功";
+    if (action == 'delete') {
+      res = await Dept.findByIdAndRemove(_id);
+      await Dept.deleteMany({ parentId: { $all: _id } });//删除子数据
+      info = "删除成功";
     } else if (action == 'add') {
       res = await Dept.create(params);
       info = "创建成功";
     } else {
-      res = await Dept.findByIdAndRemove(_id);
-      await Dept.deleteMany({ parentId: { $all: _id } });//删除子数据
-      info = "删除成功";
+      params.updateTime = new Date();
+      res = await Dept.findByIdAndUpdate(_id, params);
+      info = "编辑成功";
     }
     ctx.body = util.success('', info);
   } catch (error) {

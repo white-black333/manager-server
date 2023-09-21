@@ -2,6 +2,8 @@ const router = require('koa-router')();
 const util = require('../utils/util');
 const User = require('./../models/userSchema');
 const Counter = require('./../models/counterSchema');
+const Menu = require('./../models/menuSchema');
+const Role = require('./../models/roleSchema');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 
@@ -16,8 +18,8 @@ router.post('/login', async (ctx, next) => {
       userName,
       userPwd
     }, "userId userName userEmail state role deptId roleList");
-    console.log('res=>', res);
-    console.log('res=>', { ...res });
+    // console.log('res=>', res);
+    // console.log('res=>', { ...res });
     if (res) {
       const data = res._doc;
       const token = jwt.sign({ data: data }, 'lxhbbd', { expiresIn: "2h" });
@@ -34,6 +36,58 @@ router.post('/login', async (ctx, next) => {
     ctx.body = util.fail(`查询异常：${error.stack}`);
   }
 });
+
+// 用户权限列表接口
+router.get('/getPermissionList', async (ctx) => {
+  const token = ctx.request.header.authorization.split(' ')[1];
+  const { data } = jwt.verify(token, 'lxhbbd');
+  try {
+    let menuList = [];
+    if (data.role == 0) {//系统管理员获取全量的菜单列表
+      menuList = await Menu.find({});
+    } else {//普通用户=>角色列表=>获得对应角色的权限菜单与按钮
+      // 1. 根据普通用户的所有角色获取角色对应的权限列表
+      const roleList = await Role.find({ _id: { $in: data.roleList } }) || [];
+      // 2. 合并所有角色的权限菜单和按钮
+      let permissionList = [];
+      roleList.map((role) => {
+        const { checkedKeys, halfCheckedKeys } = role.permissionList;
+        permissionList = permissionList.concat(checkedKeys, halfCheckedKeys);
+      });
+      // 3. 去掉重复的权限菜单/按钮
+      permissionList = Array.from(new Set(permissionList));
+      // 4. 根据权限菜单与按钮 查询菜单列表
+      menuList = await Menu.find({ _id: { $in: permissionList } });
+      // console.log('menuList=>', menuList);
+    }
+    const treeList = util.getTreeMenu(menuList, null, []);
+    // 5.根据返回的菜单树列表,获取按钮的权限标识
+    const operateMap = getActionMap(treeList);
+    ctx.body = util.success({ treeList, operateMap });
+  } catch (error) {
+    ctx.body = util.fail(`${error.stack}`);
+  }
+});
+
+// 递归遍历获取 权限标识
+function getActionMap(treeList) {
+  const operateMap = [];
+  const deep = (list) => {
+    while (list.length) {
+      const item = list.pop();
+      if (item.children && item.operate) {//筛选 二级菜单
+        item.operate.map((element) => {
+          operateMap.push(element.menuCode);
+        });
+      } else if (item.children && !item.operate) {//筛选 一级菜单
+        deep(item.children);
+      }
+    }
+  };
+  deep(JSON.parse(JSON.stringify(treeList)));
+  // console.log('operateMap=>', operateMap);
+  return operateMap;
+}
 
 // 用户列表接口
 router.get('/list', async (ctx) => {
