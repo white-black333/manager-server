@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     menuType: Number,//菜单类型
     menuName: String,//菜单名称
@@ -16,6 +16,6 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now()
     },//更新时间
-})
+});
 
-module.exports = mongoose.model("menu", userSchema, "menus")
+module.exports = mongoose.model("menu", userSchema, "menus");

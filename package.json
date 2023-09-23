@@ -29,6 +29,7 @@
   "devDependencies": {
     "chai": "^4.3.8",
     "log4js": "^6.9.1",
+    "md5": "^2.3.0",
     "mocha": "^10.2.0",
     "nodemon": "^1.19.1",
     "supertest": "^6.3.3"

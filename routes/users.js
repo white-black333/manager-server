@@ -122,7 +122,7 @@ router.get('/all/list', async (ctx) => {
 // 用户删除接口
 router.post('/delete', async (ctx) => {
   const { userIds } = ctx.request.body;
-  const res = User.updateMany({ userId: { $in: { userIds } } }, { state: 2 });
+  const res = await User.updateMany({ userId: { $in: userIds } }, { state: 2 });
   if (res.acknowledged) {
     ctx.body = util.success({ nModified: res.modifiedCount }, `删除成功${res.modifiedCount}条`);
     return;
@@ -167,7 +167,7 @@ router.post('/operate', async (ctx) => {
       return;
     }
     try {
-      const res = await User.findOneAndUpdate({ userId }, { userEmail, mobile, job, state, roleList });
+      const res = await User.findOneAndUpdate({ userId }, { userEmail, mobile, job, state, roleList, deptId });
       ctx.body = util.success({}, "用户信息修改成功");
     } catch (error) {
       ctx.body = util.fail(`更新失败:${error.stack}`);
