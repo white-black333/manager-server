@@ -52,14 +52,6 @@ app.use(koajwt({ secret: 'lxhbbd' }).unless({
 
 router.prefix('/api');// routes 路由
 
-router.get('/leave/count', (ctx, next) => {
-  // 拿到请求头中的token数据
-  token = ctx.request.header.authorization.split(' ')[1];
-  // 验证token是否有效
-  const payload = jwt.verify(token, 'lxhbbd');
-  ctx.body = payload;
-});
-
 router.use(users.routes(), users.allowedMethods());
 router.use(menus.routes(), menus.allowedMethods());
 router.use(roles.routes(), roles.allowedMethods());

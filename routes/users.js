@@ -14,9 +14,10 @@ router.post('/login', async (ctx, next) => {
   try {
     // console.log('ctx.request.body=>', ctx.request.body);
     const { userName, userPwd } = ctx.request.body;
+    console.log(userPwd, md5(userPwd));
     const res = await User.findOne({
       userName,
-      userPwd
+      userPwd: md5(userPwd)
     }, "userId userName userEmail state role deptId roleList");
     // console.log('res=>', res);
     // console.log('res=>', { ...res });
