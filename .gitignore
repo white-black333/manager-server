@@ -1,3 +1,8 @@
 /logs/
 /node_modules
 /后端学习笔记.md
+/后端学习笔记.assets
+/config/logs/
+/yarn-error.log
+/.gitignore
+/utils/utils.js
