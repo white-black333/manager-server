@@ -1,4 +1,4 @@
-<img src="./后端学习笔记.assets/image-20230824163546737.png" alt="image-20230824163546737" style="zoom: 67%;" />
+<img src="./README.assets/image-20230824163546737.png" alt="image-20230824163546737" style="zoom: 67%;" />
 
 ## 一、脚手架创建一个Koa2项目
 
@@ -171,11 +171,11 @@ net stop mongodb  #关闭MongoDB服务
 
 - mongo 和sql映射关系
 
-<img src="./后端学习笔记.assets/image-20230824144753577.png" alt="image-20230824144753577" style="zoom:75%;" />
+<img src="./README.assets/image-20230824144753577.png" alt="image-20230824144753577" style="zoom:75%;" />
 
 - 数据库操作
 
-<img src="./后端学习笔记.assets/image-20230824144919311.png" alt="image-20230824144919311" style="zoom:75%;" />
+<img src="./README.assets/image-20230824144919311.png" alt="image-20230824144919311" style="zoom:75%;" />
 
 - 集合操作
 
@@ -187,7 +187,7 @@ net stop mongodb  #关闭MongoDB服务
 
 - 文档操作
 
-<img src="./后端学习笔记.assets/image-20230824145102767.png" alt="image-20230824145102767" style="zoom:75%;" />
+<img src="./README.assets/image-20230824145102767.png" alt="image-20230824145102767" style="zoom:75%;" />
 
 ```
 				更新单个文档   		  	db.collection.updateOne()
@@ -196,7 +196,7 @@ net stop mongodb  #关闭MongoDB服务
 
 - 条件操作
 
-<img src="./后端学习笔记.assets/image-20230824145202753.png" alt="image-20230824145202753" style="zoom:75%;" />
+<img src="./README.assets/image-20230824145202753.png" alt="image-20230824145202753" style="zoom:75%;" />
 
 #### nodejs使用mongoDB
 
@@ -722,7 +722,7 @@ const urlObj = url.parse(request.url)
 console.log(urlObj)
 ```
 
-![image-20230201174634299](./后端学习笔记.assets/149a6190829a491fbd13b51063a22397tplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp)
+![image-20230201174634299](./README.assets/149a6190829a491fbd13b51063a22397tplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp)
 
 #### Query / 请求的资源路径和查询参数
 
@@ -739,7 +739,7 @@ console.log(urlObj)
 console.log(request.headers);
 ```
 
-![image-20230201183255363](./后端学习笔记.assets/facfa869124d4ae09f4c159bf3c155d3tplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp)
+![image-20230201183255363](./README.assets/facfa869124d4ae09f4c159bf3c155d3tplv-k3u1fbpfcp-zoom-in-crop-mark1512000.webp)
 
 像是 `sec-ch-ua`、`sec-ch-ua-mobile` 这种以 `sec-` 为前缀的请求头，表示禁止使用代码修改的 HTTP 消息头，用户代理保留全部对它们的控制权。比如我们熟悉的 **`User-Agent`**，通常后端会根据它来判断用户的系统和平台，但是它很容易就被修改进行伪装，因此是不安全的。通过 **`sec-ch-ua`** 就能安全的将用户代理信息传给服务器。
 
